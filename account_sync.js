@@ -26,7 +26,9 @@ const accountSync = {
                         Add it to the enum in order to resolve this error.
                     `);
                 }
-                await this.updateCurrencyPriceInAirtableAsync(currencyName, parseFloat(priceInDollars));
+                const marketCap = cryptoAsset.market_cap_usd;
+                const volume24h = cryptoAsset['24h_volume_usd'];
+                await this.updateCurrencyInAirtableAsync(currencyName, parseFloat(priceInDollars), parseFloat(marketCap), parseFloat(volume24h));
             }
         }
     },
@@ -75,9 +77,11 @@ const accountSync = {
             await this.updateHoldingAmountInAirtableAsync(airtableHoldingName, currentBalance);
         }
     },
-    async updateCurrencyPriceInAirtableAsync(currencyName, priceInDollars) {
+    async updateCurrencyInAirtableAsync(currencyName, priceInDollars, marketCap, volume24h) {
         const currencyRecordId = await this.fetchAirtableRecordIdForCurrencyAsync(currencyName);
         await airtableJsWrapper.updateAsync(config.airtableCurrenciesTable.name, config.airtableCurrenciesTable.priceFieldName, currencyRecordId, priceInDollars);
+        await airtableJsWrapper.updateAsync(config.airtableCurrenciesTable.name, config.airtableCurrenciesTable.marketCapFieldName, currencyRecordId, marketCap);
+        await airtableJsWrapper.updateAsync(config.airtableCurrenciesTable.name, config.airtableCurrenciesTable.volumeFieldName, currencyRecordId, volume24h);
     },
     async updateHoldingAmountInAirtableAsync(assetName, amountInDollars) {
         const assetRecordId = await this.fetchAirtableRecordIdForHoldingAsync(assetName);

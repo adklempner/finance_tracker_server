@@ -706,6 +706,19 @@ const cryptoAssetList = [
     'espers', // Espers
     'valorbit', // Valorbit
     'paccoin', // Paccoin
+    'eos',
+    'omisego',
+    'rchain',
+    'vechain',
+    'waltonchain',
+    '0x',
+    'icon',
+    'golem-network-tokens',
+    'civic',
+    'augur',
+    'gnosis-gno',
+    'aragon',
+    'basic-attention-token'
 ];
 
 const CryptoAssets = utils.keywords(cryptoAssetList);
